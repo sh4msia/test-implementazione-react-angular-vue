@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(["task1", "task2"]);
   const [taskText, setTaskText] = useState("");
 
   const addTask = () => {
@@ -33,8 +33,7 @@ function App() {
       <ul>
         {tasks.map((task, index) => (
           <li key={index}>
-            {task}{" "}
-            <button onClick={() => deleteTask(index)}>Delete</button>
+            {task} <button onClick={() => deleteTask(index)}>Delete</button>
           </li>
         ))}
       </ul>
