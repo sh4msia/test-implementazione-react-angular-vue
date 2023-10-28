@@ -1,13 +1,17 @@
 <template>
   <div>
     <h1>Task Manager</h1>
-    <ul>
-      <li v-for="task in tasks" :key="task.id">
+    <label>
+      Filter by name:
+      <input type="text" v-model="filterName">
+    </label>
+    <transition-group name="task-list" tag="ul">
+      <li v-for="task in filteredTasks" :key="task.id">
         {{ task.name }}
         <button @click="showEditTaskForm(task)">Edit</button>
         <button @click="deleteTask(task)">Delete</button>
       </li>
-    </ul>
+    </transition-group>
     <button @click="showAddTaskForm">Add Task</button>
     <div v-if="showAddTask">
       <h2>Add Task</h2>
@@ -46,7 +50,13 @@ export default {
       newTaskName: '',
       editedTaskName: '',
       editedTaskId: null,
+      filterName: '',
     };
+  },
+  computed: {
+    filteredTasks() {
+      return this.tasks.filter(task => task.name.toLowerCase().includes(this.filterName.toLowerCase()));
+    },
   },
   methods: {
     showAddTaskForm() {
@@ -120,5 +130,17 @@ button {
   border-radius: 4px;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+/* Aggiungiamo le animazioni per la transizione */
+.task-list-enter-active,
+.task-list-leave-active {
+  transition: all 0.5s;
+}
+
+.task-list-enter,
+.task-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>

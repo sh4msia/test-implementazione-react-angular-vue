@@ -1,42 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
+import logo from "./images/React-icon.svg";
+
 import "./App.css";
+import TaskManager from "./components/TaskManager";
+import Welcome from "./components/Welcome";
 
 function App() {
-  const [tasks, setTasks] = useState(["task1", "task2"]);
-  const [taskText, setTaskText] = useState("");
-
-  const addTask = () => {
-    if (taskText) {
-      setTasks([...tasks, taskText]);
-      setTaskText("");
-    }
-  };
-
-  const deleteTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
-  };
-
   return (
     <div className="App">
-      <h1>Task Manager</h1>
-      <div>
-        <input
-          type="text"
-          placeholder="Add a new task"
-          value={taskText}
-          onChange={(e) => setTaskText(e.target.value)}
-        />
-        <button onClick={addTask}>Add</button>
-      </div>
-      <ul>
-        {tasks.map((task, index) => (
-          <li key={index}>
-            {task} <button onClick={() => deleteTask(index)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <header>
+        <img src={logo} alt="React logo" className="logo" />
+        <div className="wrapper">
+          <Welcome msg={"React"} />
+          <nav>
+            <a>Home</a>
+            <a>About</a>
+          </nav>
+        </div>
+      </header>
+      <TaskManager />
     </div>
   );
 }
