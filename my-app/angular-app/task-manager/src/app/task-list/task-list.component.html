@@ -1,0 +1,12 @@
+<div class="TaskList">
+  <ul>
+    <li *ngFor="let task of tasks">
+      <app-task-item
+        [task]="task"
+        (deleteTask)="handleDeleteTask($event)"
+        (toggleTask)="handleToggleTask($event)"
+        (updateTask)="handleUpdateTask($event)"
+      ></app-task-item>
+    </li>
+  </ul>
+</div>

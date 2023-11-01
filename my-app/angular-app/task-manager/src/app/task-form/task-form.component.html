@@ -1,0 +1,24 @@
+<form class="TaskForm" (ngSubmit)="handleSubmit()">
+  <input
+    type="text"
+    placeholder="Titolo"
+    [(ngModel)]="title"
+    name="title"
+    required
+  />
+  <input
+    type="text"
+    placeholder="Descrizione"
+    [(ngModel)]="description"
+    name="description"
+    required
+  />
+  <input
+    type="date"
+    placeholder="Data di scadenza"
+    [(ngModel)]="dueDate"
+    name="dueDate"
+    required
+  />
+  <button type="submit">Add task</button>
+</form>

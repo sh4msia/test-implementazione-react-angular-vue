@@ -2,19 +2,20 @@
   <header>
     <img
       alt="Vue logo"
-      class="logo"
+      class="angular logo"
       src="./assets/angular.svg"
       width="125"
       height="125"
     />
     <div class="wrapper">
+      <app-introduction [msg]="'Angular'"></app-introduction>
       <nav>
-        <a>Home</a>
-        <a>About</a>
+        <a routerLink="/">Task Manager</a>
+        <a routerLink="/about">Presentazione</a>
       </nav>
     </div>
   </header>
-  <div class="main">
-    <app-task-manager></app-task-manager>
+  <div class="wrapper">
+    <router-outlet></router-outlet>
   </div>
 </div>

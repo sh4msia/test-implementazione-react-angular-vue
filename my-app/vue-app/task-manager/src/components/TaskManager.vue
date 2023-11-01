@@ -1,119 +1,101 @@
 <template>
-  <div>
+  <div class="TaskManager">
     <h1>Task Manager</h1>
-    <label>
-      Filter by name:
-      <input type="text" v-model="filterName">
-    </label>
-    <transition-group name="task-list" tag="ul">
-      <li v-for="task in filteredTasks" :key="task.id">
-        {{ task.name }}
-        <button @click="showEditTaskForm(task)">Edit</button>
-        <button @click="deleteTask(task)">Delete</button>
-      </li>
-    </transition-group>
-    <button @click="showAddTaskForm">Add Task</button>
-    <div v-if="showAddTask">
-      <h2>Add Task</h2>
-      <form @submit.prevent="addTask">
-        <label>
-          Name:
-          <input type="text" v-model="newTaskName" required>
-        </label>
-        <button type="submit">Add</button>
-      </form>
-    </div>
-    <div v-if="showEditTask">
-      <h2>Edit Task</h2>
-      <form @submit.prevent="editTask">
-        <label>
-          Name:
-          <input type="text" v-model="editedTaskName" required>
-        </label>
-        <button type="submit">Edit</button>
-      </form>
-    </div>
+    <TaskForm @addTask="addTask" />
+    <TaskList
+      :tasks="tasks"
+      @updateTask="updateTask"
+      @deleteTask="deleteTask"
+      @toggleTask="toggleTask"
+    />
   </div>
 </template>
 
 <script>
+import TaskList from "./TaskList.vue";
+import TaskForm from "./TaskForm.vue";
+
 export default {
+  name: "TaskManager",
+  components: {
+    TaskList,
+    TaskForm,
+  },
   data() {
     return {
       tasks: [
-        { id: 1, name: 'Task 1' },
-        { id: 2, name: 'Task 2' },
-        { id: 3, name: 'Task 3' },
+        {
+          id: 0,
+          title: "Learn Vue",
+          description: "Learn how to use Vue",
+          dueDate: "2021-03-01",
+          completed: true,
+        },
       ],
-      showAddTask: false,
-      showEditTask: false,
-      newTaskName: '',
-      editedTaskName: '',
-      editedTaskId: null,
-      filterName: '',
     };
   },
-  computed: {
-    filteredTasks() {
-      return this.tasks.filter(task => task.name.toLowerCase().includes(this.filterName.toLowerCase()));
-    },
-  },
   methods: {
-    showAddTaskForm() {
-      this.showAddTask = true;
+    addTask(task) {
+      this.tasks.push(task);
     },
-    showEditTaskForm(task) {
-      this.showEditTask = true;
-      this.editedTaskName = task.name;
-      this.editedTaskId = task.id;
-    },
-    addTask() {
-      const newTask = {
-        id: this.tasks.length + 1,
-        name: this.newTaskName,
-      };
-      this.tasks.push(newTask);
-      this.newTaskName = '';
-      this.showAddTask = false;
-    },
-    editTask() {
-      const task = this.tasks.find(task => task.id === this.editedTaskId);
-      if (task) {
-        task.name = this.editedTaskName;
-        this.showEditTask = false;
-        this.editedTaskName = '';
-        this.editedTaskId = null;
+    updateTask(id, updatedTask) {
+      const index = this.tasks.findIndex((task) => task.id === id);
+      if (index !== -1) {
+        this.tasks.splice(index, 1, updatedTask);
       }
     },
-    deleteTask(task) {
-      const index = this.tasks.indexOf(task);
-      this.tasks.splice(index, 1);
+    deleteTask(id) {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+    },
+    toggleTask(id) {
+      const task = this.tasks.find((task) => task.id === id);
+      if (task) {
+        task.completed = !task.completed;
+      }
     },
   },
 };
 </script>
 
 <style>
-  .App {
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 20px;
-}
+.TaskManager {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
 
-h1 {
-  color: #333;
+  transition: height 0.5s;
 }
 
 input {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="date"]::-webkit-calendar-picker-popup {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 ul {
   list-style-type: none;
   padding: 0;
+  width: 60%;
 }
 
 li {
@@ -124,23 +106,11 @@ li {
 }
 
 button {
-  background-color: #ff6347;
+  background-color: var(--rct-c-blue-dark);
   color: #fff;
   border: none;
   border-radius: 4px;
-  padding: 5px 10px;
+  padding: 10px 10px;
   cursor: pointer;
-}
-
-/* Aggiungiamo le animazioni per la transizione */
-.task-list-enter-active,
-.task-list-leave-active {
-  transition: all 0.5s;
-}
-
-.task-list-enter,
-.task-list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
 }
 </style>

@@ -2,28 +2,29 @@
 defineProps({
   msg: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
+      Questa applicazione è stata creata con
+      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>
     </h3>
   </div>
 </template>
 
-<style scoped>
+<style>
 h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  position: relative;
-  top: -10px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  color: var(--vt-c-green);
+  text-align: left;
 }
 
 h3 {

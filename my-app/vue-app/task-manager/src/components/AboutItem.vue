@@ -1,11 +1,24 @@
+<script setup>
+defineProps({
+  icon: {
+    type: Image,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  }
+})
+</script>
+
 <template>
   <div class="item">
     <i>
-      <slot name="icon"></slot>
+      <slot name="icon">{{ icon }}</slot>
     </i>
     <div class="details">
       <h3>
-        <slot name="heading"></slot>
+        <slot name="title">{{ title }}</slot>
       </h3>
       <slot></slot>
     </div>

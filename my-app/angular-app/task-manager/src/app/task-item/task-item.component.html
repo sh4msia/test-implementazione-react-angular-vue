@@ -1,0 +1,30 @@
+<div [ngClass]="{ TaskItem: true, show: showEditMenu }">
+  <img
+    [src]="arrow"
+    alt="Arrow Icon"
+    [ngClass]="{arrow, show: showEditMenu}"
+    height="20"
+    width="20"
+  />
+  <h3 class="info">{{ task.title }}</h3>
+  <span class="info description">{{ task.description }}</span>
+  <span class="date">{{ task.dueDate }}</span>
+  <div class="button-container">
+    <button (click)="handleDeleteTask()">Delete</button>
+    <button (click)="handleEditClick()">Edit</button>
+  </div>
+
+  <label>Stato</label>
+  <input
+    type="checkbox"
+    [checked]="task.completed"
+    (change)="handleToggleTask()"
+  />
+
+  <div class="form-container" *ngIf="showEditMenu">
+    <input type="text" [(ngModel)]="title" [value]="task.title" />
+    <input type="text" [(ngModel)]="description" [value]="task.description" />
+    <input type="date" [(ngModel)]="dueDate" [value]="task.dueDate" />
+    <button (click)="handleUpdateTask()">Update</button>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+.TaskForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 2px solid var(--color-border);
+}
+
+.TaskForm input {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+}
+
+.TaskForm button {
+  background-color: var(--color-background-red);
+  padding: 10px;
+  border: none;
+  color: var(--color-text);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.TaskForm input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="date"]::-webkit-calendar-picker-popup {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}

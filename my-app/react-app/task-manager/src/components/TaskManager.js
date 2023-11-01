@@ -1,42 +1,50 @@
 import React, { useState } from "react";
+import TaskList from "./TaskList";
+import TaskForm from "./TaskForm";
+
 import "./TaskManager.css";
 
 function TaskManager() {
-  const [tasks, setTasks] = useState(["task1", "task2"]);
-  const [taskText, setTaskText] = useState("");
+  function addTask(task) {
+    setTasks([...tasks, task]);
+  }
 
-  const addTask = () => {
-    if (taskText) {
-      setTasks([...tasks, taskText]);
-      setTaskText("");
-    }
-  };
+  const [tasks, setTasks] = useState([
+    {
+      id: 0,
+      title: "Learn React",
+      description: "Learn how to use React",
+      dueDate: "2021-03-01",
+      completed: true,
+    },
+  ]);
 
-  const deleteTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
-  };
+  function updateTask(id, updatedTask) {
+    setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
+  }
+
+  function deleteTask(id) {
+    setTasks(tasks.filter((task) => task.id !== id));
+  }
+
+  function toggleTask(id) {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  }
 
   return (
     <div className="TaskManager">
       <h1>Task Manager</h1>
-      <div>
-        <input
-          type="text"
-          placeholder="Add a new task"
-          value={taskText}
-          onChange={(e) => setTaskText(e.target.value)}
-        />
-        <button onClick={addTask}>Add</button>
-      </div>
-      <ul>
-        {tasks.map((task, index) => (
-          <li key={index}>
-            {task} <button onClick={() => deleteTask(index)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <TaskForm onAddTask={addTask} />
+      <TaskList
+        tasks={tasks}
+        onUpdateTask={updateTask}
+        onDeleteTask={deleteTask}
+        onToggleTask={toggleTask}
+      />
     </div>
   );
 }
